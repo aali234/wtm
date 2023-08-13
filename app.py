@@ -29,15 +29,25 @@ def activity():
    if mood != "food":
         term = True
         if(term):
-            resp = gpt.gpt_response(f'suggest one generic activity that all of these user will enojoy doing together and keep their ages in mind. The users are in the mood for {mood} {allUsers.toString(mood)}. Give the response as the generic search term to use for a yelp search do not include anything else in the response')
+            resp = gpt.gpt_response(f'suggest three generic activity that all of these user will enojoy doing together and keep their ages in mind. Here are the users The users are in the mood for {mood} {allUsers.toString(mood)}. Give the response as the generic search term to use for a yelp search in a comma sepertaed format do not include anything else in the response')
+            print("all respinsese******//////****", resp)
+            resp = resp.split(",")[0]
         else:
             resp = ""
-        resp += f'. For ages {allUsers.youngest()} and up'
-        catagories = gpt.gpt_response(f'Give me a list of catgories that all of these users might enjoy doing together. Give the response in the format [category1, catgory2,...] limit the number of items to 5 ')
+        catagories = gpt.gpt_response(f'Give me a list of catgories that all of these users might enjoy doing together. give the the response as comma seperated list. limit the number of items to 5 ')
    print(catagories)
+   catagories = catagories.split(",")
+   catagories.append(f'ages {allUsers.youngest()} and up')
+   print("**************", catagories)
    print(resp)
    acts = yelp.get_locations(resp,'plano', catagories)
-   return jsonify(acts)
+   print("///////////////////",acts,"/////////////////")
+   if acts[0] == True:
+    acts = acts[1]
+    return jsonify(acts)
+   else:
+       
+       return acts[1]
 
 
 

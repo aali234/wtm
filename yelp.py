@@ -4,7 +4,7 @@ import os
 
 load_dotenv()
 
-API_KEY = os.getenv("YELP_API_KEY")
+API_KEY = os.getenv("YELP_API_KEY") +"xyz"
 
 # Yelp API Endpoint
 YELP_ENDPOINT = 'https://api.yelp.com/v3/'
@@ -62,12 +62,12 @@ def get_locations(term, location, categories, sort = 'best_match'):
                 print("-----------\n\n")
                 locations.append(busines)
 
-            return locations
+            return (True,locations)
         else:
             print("No results found.")
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data from Yelp API: {e}")
-        return None
+        return (False, f"Error fetching data from Yelp API: {e}")
     
 
 
